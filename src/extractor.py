@@ -19,7 +19,7 @@ def extract_face(img):
     detected_faces = face_cascade.detectMultiScale(grayscale_image)
 
     if len(detected_faces) == 0:
-        return None
+        return None, None
 
     (column, row, width, height) = detected_faces[0]
     # cv.rectangle(

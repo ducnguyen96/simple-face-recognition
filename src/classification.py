@@ -74,7 +74,7 @@ def classify(img, out_encoder, facenet_model, classification_model):
     print('class_index :', class_index)
     print('class_probability :', class_probability)
 
-    all_names = out_encoder.inverse_transform([0, 1, 2, 3, 4])
+    all_names = out_encoder.inverse_transform([0, 1, 2, 3, 4, 5, 6])
     yhat_p0100 = yhat_prob[0]*100
     print('Predicted: \n%s \n%s' % (all_names, yhat_p0100))
 

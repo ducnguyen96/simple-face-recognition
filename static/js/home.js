@@ -139,7 +139,10 @@ function ekUpload() {
 
             // Update response
             const messages = document.querySelector("#messages > strong");
-            messages.innerHTML = allNames[+classIndex];
+            messages.innerHTML =
+              allNames[+classIndex] === "the_boss"
+                ? "Thiên Hạ Đệ Nhất Đẹp Trai Văn Đức"
+                : allNames[+classIndex];
           }
         };
 
