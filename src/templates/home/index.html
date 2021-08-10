@@ -4,20 +4,38 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/home.css') }}"
+    />
+    <script src="{{url_for('static', filename='js/home.js')}}"></script>
+    <title>Who Is This</title>
   </head>
   <body>
-    <h1>The input accept attribute</h1>
+    <h2>File Upload & Image Preview</h2>
+    <!-- Upload  -->
+    <form id="file-upload-form" class="uploader" action="/who-is-this">
+      <input id="file-upload" type="file" name="fileUpload" accept="image/*" />
 
-    <form action="/who-is-this" , enctype="multipart/form-data" , method="POST">
-      <label for="img">Select image:</label>
-      <input type="file" id="img" name="img" accept="image/*" required />
-      <input type="submit" />
+      <label for="file-upload" id="file-drag">
+        <div id="image-wrapper">
+          <img id="file-image" src="#" alt="Preview" class="hidden" />
+        </div>
+        <div id="start">
+          <i class="fa fa-download" aria-hidden="true"></i>
+          <div>Select a file or drag here</div>
+          <div id="notimage" class="hidden">Please select an image</div>
+          <span id="file-upload-btn" class="btn btn-primary"
+            >Select a file</span
+          >
+        </div>
+        <div id="response" class="hidden">
+          <div id="messages"></div>
+          <progress class="progress" id="file-progress" value="0">
+            <span>0</span>%
+          </progress>
+        </div>
+      </label>
     </form>
-
-    <p>
-      <strong>Note:</strong> Because of security issues, this example will not
-      allow you to upload files.
-    </p>
   </body>
 </html>

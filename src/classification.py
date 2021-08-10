@@ -52,7 +52,7 @@ def train_classification_model():
 
 def classify(img, out_encoder, facenet_model, classification_model):
     # detect face
-    face = extract_face(img)
+    face, anchor = extract_face(img)
 
     if face is None:
         return {}
@@ -82,5 +82,5 @@ def classify(img, out_encoder, facenet_model, classification_model):
     return {"class_index": str(class_index),
             "class_probability": str(class_probability),
             "all_names": all_names.tolist(),
-            "all_probability": prob_list_of_str}
-    # return {}
+            "all_probability": prob_list_of_str,
+            "anchor": list(map(int, anchor))}

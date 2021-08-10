@@ -35,7 +35,7 @@ def extract_face(img):
     # cv.destroyAllWindows()
 
     resized = cv.resize(face, (160, 160), interpolation=cv.INTER_AREA)
-    return resized
+    return resized, detected_faces[0]
 
 
 def load_face(dir):
@@ -44,7 +44,7 @@ def load_face(dir):
     for filename in os.listdir(dir):
         path = dir + filename
         read_image = cv.imread(path)
-        face = extract_face(read_image)
+        face, _ = extract_face(read_image)
         if face is not None:
             faces.append(face)
     return faces
