@@ -13,11 +13,7 @@ python main.py
 ## 2. How to train your all data set
 1. Update data folder
 
-2. Comment out the flask app
-
-3. Uncomment 3 lines in the main function 
-
-4. python main.py
+2. python train.py
 
 ## 3. How to install specified version of Python
 

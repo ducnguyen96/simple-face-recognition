@@ -5,16 +5,12 @@ from keras.models import load_model
 
 
 def extract_face(img):
-
-    # Read image from your local file system
-    # original_image = cv.imread(img)
-
     # Convert color image to grayscale for Viola-Jones
     grayscale_image = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
     # Load the classifier and create a cascade object for face detection
     face_cascade = cv.CascadeClassifier(
-        cv.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        'src/model/haarcascades/haarcascade_frontalface_alt2.xml')
 
     detected_faces = face_cascade.detectMultiScale(grayscale_image)
 
@@ -22,20 +18,40 @@ def extract_face(img):
         return None, None
 
     (column, row, width, height) = detected_faces[0]
-    # cv.rectangle(
-    #     original_image,
-    #     (column, row),
-    #     (column + width, row + height),
-    #     (0, 255, 0),
-    #     2
-    # )
     face = img[row:row+height, column:column+width]
-    # cv.imshow('Image', original_image)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows()
 
     resized = cv.resize(face, (160, 160), interpolation=cv.INTER_AREA)
     return resized, detected_faces[0]
+
+
+def draw_face(img):
+    # Convert color image to grayscale for Viola-Jones
+    grayscale_image = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+    # Load the classifier and create a cascade object for face detection
+    face_cascade = cv.CascadeClassifier(
+        'src/model/haarcascades/haarcascade_frontalface_alt2.xml')
+
+    detected_faces = face_cascade.detectMultiScale(grayscale_image)
+
+    if len(detected_faces) == 0:
+        return None, None
+
+    for (x, y, w, h) in detected_faces:
+        cv.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    resized = cv.resize(img, (500, 500), interpolation=cv.INTER_AREA)
+    cv.imshow('resized', resized)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
+
+    (column, row, width, height) = detected_faces[0]
+    face = img[row:row+height, column:column+width]
+
+    resized = cv.resize(face, (160, 160), interpolation=cv.INTER_AREA)
+    cv.imshow('resized', resized)
+    cv.waitKey(0)
+    cv.destroyAllWindows()
 
 
 def load_face(dir):
