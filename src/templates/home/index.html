@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>The input accept attribute</h1>
+
+    <form action="/who-is-this" , enctype="multipart/form-data" , method="POST">
+      <label for="img">Select image:</label>
+      <input type="file" id="img" name="img" accept="image/*" required />
+      <input type="submit" />
+    </form>
+
+    <p>
+      <strong>Note:</strong> Because of security issues, this example will not
+      allow you to upload files.
+    </p>
+  </body>
+</html>
