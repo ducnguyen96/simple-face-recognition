@@ -6,6 +6,7 @@ import joblib
 from keras.models import load_model
 
 from flask import Flask, request, render_template
+# from flask_cors import CORS
 
 
 # load train dataset
@@ -21,6 +22,7 @@ facenet_model._make_predict_function()
 classification_model = joblib.load('./src/model/data/my_model.pkl')
 
 app = Flask(__name__, template_folder='./src/templates')
+# CORS(app, origins=['localhost', 'wikipedia'])
 
 
 @app.route('/', methods=['GET'])

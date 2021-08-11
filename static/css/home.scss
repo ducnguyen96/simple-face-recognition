@@ -20,6 +20,7 @@ body {
   text-align: center;
 }
 body {
+  font-family: "Roboto", sans-serif;
   padding: 2rem;
   background: #f8f8f8;
 }
@@ -39,7 +40,9 @@ p {
 // Upload Demo
 //
 .uploader {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   clear: both;
   margin: 0 auto;
   width: 100%;
@@ -187,3 +190,39 @@ p {
     cursor: pointer;
   }
 }
+
+a {
+  color: cornflowerblue;
+  text-decoration: none !important;
+  background: transparent;
+  outline: none;
+}
+
+a:focus {
+  text-decoration: none;
+  background: transparent;
+  outline: none;
+}
+
+a:visited {
+  text-decoration: none;
+  background: transparent;
+  outline: none;
+}
+
+li {
+  list-style: none;
+}
+
+// tr {
+//   position: relative;
+// }
+
+// tr:not(:first-child)::after {
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+//   content: "";
+//   border: 1px solid rgb(200, 200, 200);
+// }

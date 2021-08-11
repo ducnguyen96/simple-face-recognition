@@ -47,6 +47,10 @@ function ekUpload() {
     const top5 = document.getElementById("top5");
     if (top5) top5.remove();
 
+    // remove old infobox
+    const infobox = document.querySelector("table.infobox");
+    if (infobox) infobox.remove();
+
     // Fetch FileList object
     var files = e.target.files || e.dataTransfer.files;
 
@@ -168,8 +172,38 @@ function ekUpload() {
               top5Div.appendChild(elem);
             });
 
+            if (namesTop5[0] === "the_boss") return;
+
             const fileUpload = document.getElementById("file-drag");
             fileUpload.appendChild(top5Div);
+
+            // Update detail
+            let search_endpoint = "https://en.wikipedia.org/w/api.php";
+
+            const search_params = {
+              action: "query",
+              list: "search",
+              srsearch: transferClassName(namesTop5[0]),
+              srlimit: "1",
+              format: "json",
+            };
+
+            search_endpoint = search_endpoint + "?origin=*";
+            Object.keys(search_params).forEach(function (key) {
+              search_endpoint += "&" + key + "=" + search_params[key];
+            });
+
+            fetch(search_endpoint)
+              .then(function (response) {
+                return response.json();
+              })
+              .then(function (response) {
+                const title = response.query.search[0].title;
+                queryWikipediaPage(title);
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
           }
         };
 
@@ -199,6 +233,42 @@ function ekUpload() {
     document.getElementById("file-drag").style.display = "none";
   }
 }
+
+const queryWikipediaPage = (title) => {
+  let endpoint = "https://en.wikipedia.org/w/api.php";
+
+  const params = {
+    action: "parse",
+    page: title.replace(" ", "_"),
+    prop: "text",
+    formatversion: 2,
+    format: "json",
+  };
+
+  endpoint = endpoint + "?origin=*";
+  Object.keys(params).forEach(function (key) {
+    endpoint += "&" + key + "=" + params[key];
+  });
+
+  fetch(endpoint)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (response) {
+      const bodyDOM = response["parse"]["text"];
+      const fakeDOM = document.createElement("div");
+      fakeDOM.innerHTML = bodyDOM;
+      const infoBox = fakeDOM.querySelector(".infobox.vcard");
+      const infoBoxAbove = infoBox.querySelector(".infobox-above");
+      if (infoBoxAbove) infoBoxAbove.remove();
+
+      const form = document.getElementById("file-upload-form");
+      form.appendChild(infoBox);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
 window.onload = () => {
   ekUpload();
 };

@@ -12,6 +12,7 @@ body {
   text-align: center; }
 
 body {
+  font-family: "Roboto", sans-serif;
   padding: 2rem;
   background: #f8f8f8; }
 
@@ -28,7 +29,9 @@ p {
   color: #5f6982; }
 
 .uploader {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   clear: both;
   margin: 0 auto;
   width: 100%;
@@ -139,3 +142,22 @@ p {
     background: #454cad;
     border-color: #454cad;
     cursor: pointer; }
+
+a {
+  color: cornflowerblue;
+  text-decoration: none !important;
+  background: transparent;
+  outline: none; }
+
+a:focus {
+  text-decoration: none;
+  background: transparent;
+  outline: none; }
+
+a:visited {
+  text-decoration: none;
+  background: transparent;
+  outline: none; }
+
+li {
+  list-style: none; }
