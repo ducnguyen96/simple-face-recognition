@@ -6,6 +6,7 @@ from sklearn.svm import SVC
 import numpy as np
 import joblib
 import cv2 as cv
+import operator
 
 
 def train_classification_model():
@@ -65,22 +66,22 @@ def classify(img, out_encoder, facenet_model, classification_model):
     emb_norm = in_encoder.transform([emb])
 
     # predict
-    yhat_class = classification_model.predict(emb_norm)
+    # yhat_class = classification_model.predict(emb_norm)
     yhat_prob = classification_model.predict_proba(emb_norm)
 
-    class_index = yhat_class[0]
-    class_probability = yhat_prob[0, class_index] * 100
+    # top 5
+    yhat_prob_array = np.array(yhat_prob[0])
+    enumerate_object = enumerate(yhat_prob_array)
+    sorted_pairs = sorted(
+        enumerate_object, key=operator.itemgetter(1), reverse=True)
+    sorted_indices = [index for index, element in sorted_pairs]
+    sorted_yhat = [element*100 for index, element in sorted_pairs]
+    indices_top5 = sorted_indices[:5]
+    prob_top5 = sorted_yhat[:5]
 
-    print('class_index :', class_index)
-    print('class_probability :', class_probability)
+    names_top5 = out_encoder.inverse_transform(indices_top5)
 
-    all_names = out_encoder.inverse_transform([0, 1, 2, 3, 4, 5, 6])
-    yhat_p0100 = yhat_prob[0]*100
-    print('Predicted: \n%s \n%s' % (all_names, yhat_p0100))
-
-    prob_list_of_str = list(map(int, yhat_p0100.tolist()))
-    return {"class_index": str(class_index),
-            "class_probability": str(class_probability),
-            "all_names": all_names.tolist(),
-            "all_probability": prob_list_of_str,
-            "anchor": list(map(int, anchor))}
+    return {
+        "names_top5": list(map(str, names_top5)),
+        "prob_top5": list(map(float, prob_top5)),
+        "anchor": list(map(int, anchor))}

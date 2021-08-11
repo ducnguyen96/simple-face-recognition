@@ -1,9 +1,7 @@
 from src.classification import classify
-from src.extractor import extract_face
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import cv2 as cv
-from src.extractor import extract_face
 import joblib
 from keras.models import load_model
 

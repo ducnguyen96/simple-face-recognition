@@ -1,5 +1,13 @@
 // File Upload
 //
+function capitalize(word) {
+  return word[0].toUpperCase() + word.slice(1).toLowerCase();
+}
+
+const transferClassName = (str) => {
+  const words = str.split("_").map((w) => capitalize(w));
+  return words.join(" ");
+};
 function ekUpload() {
   function Init() {
     console.log("Upload Initialized");
@@ -34,6 +42,10 @@ function ekUpload() {
     // remove old frame
     const frame = document.getElementById("frame");
     if (frame) frame.remove();
+
+    // remove old top5
+    const top5 = document.getElementById("top5");
+    if (top5) top5.remove();
 
     // Fetch FileList object
     var files = e.target.files || e.dataTransfer.files;
@@ -120,11 +132,10 @@ function ekUpload() {
 
             const response = JSON.parse(e.target.response);
             const anchor = response["anchor"];
-            const allNames = response["all_names"];
-            const allProbability = response["all_probability"];
-            const classIndex = response["class_index"];
-            const classProbability = response["class_probability"];
+            const namesTop5 = response["names_top5"];
+            const probTop5 = response["prob_top5"];
 
+            // Add Frame
             const frame = document.createElement("div");
             frame.id = "frame";
             frame.style.width = `${anchor[2] * changePercent}px`;
@@ -140,9 +151,25 @@ function ekUpload() {
             // Update response
             const messages = document.querySelector("#messages > strong");
             messages.innerHTML =
-              allNames[+classIndex] === "the_boss"
+              namesTop5[0] === "the_boss"
                 ? "Thiên Hạ Đệ Nhất Đẹp Trai Văn Đức"
-                : allNames[+classIndex];
+                : transferClassName(namesTop5[0]);
+
+            // Add Top 5
+            const top5Div = document.createElement("ol");
+            top5Div.id = "top5";
+            top5Div.style.display = "flex";
+            top5Div.style.justifyContent = "space-between";
+            namesTop5.forEach((name, index) => {
+              const elem = document.createElement("li");
+              elem.innerHTML = `${transferClassName(name)} (${probTop5[
+                index
+              ].toFixed(2)} %)`;
+              top5Div.appendChild(elem);
+            });
+
+            const fileUpload = document.getElementById("file-drag");
+            fileUpload.appendChild(top5Div);
           }
         };
 
