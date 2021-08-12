@@ -162,8 +162,9 @@ function ekUpload() {
             // Add Top 5
             const top5Div = document.createElement("ol");
             top5Div.id = "top5";
-            top5Div.style.display = "flex";
-            top5Div.style.justifyContent = "space-between";
+            top5Div.style.padding = 0;
+            // top5Div.style.display = "flex";
+            // top5Div.style.justifyContent = "space-between";
             namesTop5.forEach((name, index) => {
               const elem = document.createElement("li");
               elem.innerHTML = `${transferClassName(name)} (${probTop5[

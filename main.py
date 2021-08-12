@@ -4,15 +4,17 @@ import numpy as np
 import cv2 as cv
 import joblib
 from keras.models import load_model
+import pickle
 
 from flask import Flask, request, render_template
 # from flask_cors import CORS
 
 
 # load train dataset
-data = np.load(
-    './src/model/data/5-celebrity-faces-dataset.npz', allow_pickle=True)
-trainy = data['arr_1']
+trainy = np.array([])
+with open('./src/model/data/trainy', 'rb') as fp:
+    itemlist = pickle.load(fp)
+    trainy = np.array(itemlist)
 
 out_encoder = LabelEncoder()
 out_encoder.fit(trainy)

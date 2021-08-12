@@ -1,0 +1,10 @@
+.git
+__pycache__
+.vscode
+data
+Dockerfile
+README.md
+.vscode
+download
+split
+.npz

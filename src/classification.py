@@ -12,7 +12,7 @@ import operator
 def train_classification_model():
     # load embedding
     data = np.load(
-        './src/model/data/5-celebrity-faces-embeddings.npz', allow_pickle=True)
+        './src/model/data/embeddings.npz', allow_pickle=True)
 
     emdTrainX, trainy, emdTestX, testy = data['arr_0'], data['arr_1'], data['arr_2'], data['arr_3']
 
@@ -32,7 +32,7 @@ def train_classification_model():
     testy_enc = out_encoder.transform(testy)
 
     # fit model
-    model = SVC(kernel='linear', probability=True)
+    model = SVC(kernel='linear', probability=True, verbose=True)
     model.fit(emdTrainX_norm, trainy_enc)
 
     # predict

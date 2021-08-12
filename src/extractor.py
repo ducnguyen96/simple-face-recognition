@@ -60,6 +60,8 @@ def load_face(dir):
     for filename in os.listdir(dir):
         path = dir + filename
         read_image = cv.imread(path)
+        if read_image is None:
+            continue
         face, _ = extract_face(read_image)
         if face is not None:
             faces.append(face)
@@ -96,7 +98,7 @@ def prepare_data():
     print(testX.shape, testy.shape)
 
     # save and compress the dataset for further use
-    np.savez_compressed('./src/model/data/5-celebrity-faces-dataset.npz',
+    np.savez_compressed('./src/model/data/dataset.npz',
                         trainX, trainy, testX, testy)
 
 
@@ -116,7 +118,7 @@ def get_embedding(model, face):
 def get_all_embedding():
     # load the face dataset
     data = np.load(
-        './src/model/data/5-celebrity-faces-dataset.npz', allow_pickle=True)
+        './src/model/data/dataset.npz', allow_pickle=True)
     trainX, trainy, testX, testy = data['arr_0'], data['arr_1'], data['arr_2'], data['arr_3']
     print('Loaded: ', trainX.shape, trainy.shape, testX.shape, testy.shape)
 
@@ -141,5 +143,5 @@ def get_all_embedding():
     print(emdTestX.shape)
 
     # save arrays to one file in compressed format
-    np.savez_compressed('./src/model/data/5-celebrity-faces-embeddings.npz',
+    np.savez_compressed('./src/model/data/embeddings.npz',
                         emdTrainX, trainy, emdTestX, testy)
