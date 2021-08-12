@@ -5,3 +5,4 @@ haarcascades
 downloads
 split
 *.npz
+*.pkl

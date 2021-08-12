@@ -6,14 +6,44 @@
 details in the `packages.txt`
 
 ## 1. How to test
+Because I updated the model for classifying on more than 1000 classes so the model now is pretty big (>159 MB) so I can't upload to github.
+You can train your model follow the steps below
+
 ```sh
 python main.py
 ```
 
 ## 2. How to train your all data set
-1. Update data folder
+0. You can use this tool https://github.com/Joeclinton1/google-images-download to download image
 
-2. python train.py
+- go to `google-images-download` folder --> update config file --> python google_images_download.py
+
+1. Put your data as
+  
+```
+project
+│
+└───src
+│
+└───static
+│
+└───downloads
+│   └───Emma Watson
+│   │   │pic1.jpg
+│   │   │pic2.jpg
+│   │
+│   └───Albert Baldwin
+│       │pic1.jpg
+│       │pic2.jpg
+│
+│debug.py
+│Dockerfile
+│README.md
+```
+
+2. python split_data.py
+
+3. python train.py
 
 ## 3. How to install specified version of Python
 
