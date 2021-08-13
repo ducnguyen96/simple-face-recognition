@@ -1,5 +1,9 @@
-// File Upload
-//
+// Init SpeechSynth API
+const synth = window.speechSynthesis;
+
+// Speak who's name
+voices = synth.getVoices();
+googleUSEnglish = voices.find((voice) => voice.name === "Google US English");
 function capitalize(word) {
   return word[0].toUpperCase() + word.slice(1).toLowerCase();
 }
@@ -159,6 +163,18 @@ function ekUpload() {
                 ? "Thiên Hạ Đệ Nhất Đẹp Trai Văn Đức"
                 : transferClassName(namesTop5[0]);
 
+            const speakText = new SpeechSynthesisUtterance(
+              `This is ${transferClassName(namesTop5[0])}`
+            );
+            speakText.voice = googleUSEnglish;
+
+            if (synth.speaking) {
+              console.log("Speaking ....");
+              synth.cancel();
+            }
+
+            synth.speak(speakText);
+
             // Add Top 5
             const top5Div = document.createElement("ol");
             top5Div.id = "top5";
@@ -259,12 +275,36 @@ const queryWikipediaPage = (title) => {
       const bodyDOM = response["parse"]["text"];
       const fakeDOM = document.createElement("div");
       fakeDOM.innerHTML = bodyDOM;
+
       const infoBox = fakeDOM.querySelector(".infobox.vcard");
       const infoBoxAbove = infoBox.querySelector(".infobox-above");
       if (infoBoxAbove) infoBoxAbove.remove();
 
       const form = document.getElementById("file-upload-form");
       form.appendChild(infoBox);
+
+      // const infoCaption = infoBox.querySelector(".infobox-caption").innerText;
+      const secondP = fakeDOM
+        .querySelector(".mw-parser-output > p:nth-of-type(2)")
+        .innerText.replace(/\[(.*?)\]/gm, "");
+
+      const sentences = secondP.split(",");
+
+      let sentenceCount = 0;
+
+      if (synth.speaking) {
+        synth.cancel();
+      }
+
+      while (sentenceCount < sentences.length) {
+        let speakText = new SpeechSynthesisUtterance(sentences[sentenceCount]);
+        speakText.voice = googleUSEnglish;
+        synth.speak(speakText);
+
+        setTimeout(() => {}, 600 * sentences[sentenceCount].split(" ").length);
+
+        sentenceCount += 1;
+      }
     })
     .catch(function (error) {
       console.log(error);
